@@ -21,33 +21,40 @@ struct CharacterView: View {
     var body: some View {
         VStack {
             // MARK: - Characters list
-            List {
-                ForEach(charViewModel.manga.characters) { character in
-                    NavigationLink {
-                        CharDescriptionView(character: character)
-                    } label: {
-                        if let name = character.name {
-                            Text(name)
+            if charViewModel.manga.characters.isEmpty {
+                Text("Empty list")
+                    .font(.title)
+                    .foregroundColor(.gray)
+            } else {
+                List {
+                    ForEach(charViewModel.manga.characters) { character in
+                        NavigationLink {
+                            CharDescriptionView(character: character)
+                        } label: {
+                            if let name = character.name {
+                                Text(name)
+                            }
                         }
                     }
-                }
-                .onDelete(perform: charViewModel.deleteCharacters)
-            }
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-                ToolbarItem {
-                    Button {
-                        self.isShowing.toggle()
-                    } label: {
-                        Image(systemName: "plus")
-                    }
-                    .sheet(isPresented: $isShowing) {
-                        AddNewCharacterView(charViewModel: charViewModel)
-                    }
+                    .onDelete(perform: charViewModel.deleteCharacters)
                 }
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                EditButton()
+            }
+            ToolbarItem {
+                Button {
+                    self.isShowing.toggle()
+                } label: {
+                    Image(systemName: "plus")
+                }
+                .sheet(isPresented: $isShowing) {
+                    AddNewCharacterView(charViewModel: charViewModel)
+                }
+            }
+        }
+        .navigationTitle("Character")
     }
 }

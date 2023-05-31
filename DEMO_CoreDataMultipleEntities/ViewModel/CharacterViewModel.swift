@@ -51,7 +51,7 @@ class CharacterViewModel: ObservableObject {
     /// then refreshes the list of characters.
     func addCharacter() {
         // Check if the input contains at least one letter
-        if !name.isEmpty, name.rangeOfCharacter(from: .letters) != nil {
+        if !name.isEmpty, name.rangeOfCharacter(from: .alphanumerics) != nil {
             let newCharacter = Character(context: viewContext)
             newCharacter.name = name
             newCharacter.descriptions = description

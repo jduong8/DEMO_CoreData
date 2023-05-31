@@ -19,19 +19,28 @@ struct MangaView: View {
 
     var body: some View {
         NavigationView {
-            List {
-                ForEach(viewModel.mangas) { manga in
-                    if let name = manga.name {
-                        NavigationLink {
-                            CharacterView(viewContext: viewContext,
-                                          manga: manga)
-                        } label: {
-                            Text(name)
+            VStack {
+                if viewModel.mangas.isEmpty {
+                    Text("Empty list")
+                        .font(.title)
+                        .foregroundColor(.gray)
+                } else {
+                    List {
+                        ForEach(viewModel.mangas) { manga in
+                            if let name = manga.name {
+                                NavigationLink {
+                                    CharacterView(viewContext: viewContext,
+                                                  manga: manga)
+                                } label: {
+                                    Text(name)
+                                }
+                            }
                         }
+                        .onDelete(perform: viewModel.deleteMangas)
                     }
                 }
-                .onDelete(perform: viewModel.deleteMangas)
             }
+            .navigationTitle("Manga")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     EditButton()

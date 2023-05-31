@@ -44,7 +44,7 @@ class MangaViewModel: ObservableObject {
         // Check if the input contains at least one letter and has at least 4 characters
         if !newManga.isEmpty,
            newManga.count >= 4,
-           newManga.rangeOfCharacter(from: .letters) != nil {
+           newManga.rangeOfCharacter(from: .alphanumerics) != nil {
 
             let manga = Manga(context: viewContext)
             manga.name = newManga.trimmingCharacters(in: .whitespaces)
