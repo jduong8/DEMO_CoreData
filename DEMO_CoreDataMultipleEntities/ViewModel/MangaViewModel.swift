@@ -12,8 +12,10 @@ import CoreData
 class MangaViewModel: ObservableObject {
     /// An array of `Manga` that contains the list of mangas fetched from the database.
     @Published var mangas: [Manga] = []
+
     /// A string that stores the name of the new manga to be added to the database.
     @Published var newManga: String = ""
+
     /// The `NSManagedObjectContext` used for interacting with the Core Data database.
     private var viewContext: NSManagedObjectContext
 
@@ -40,11 +42,11 @@ class MangaViewModel: ObservableObject {
     /// then refreshes the list of mangas and resets `newManga` to an empty string.
     func addManga() {
         let manga = Manga(context: viewContext)
-        manga.name = newManga
+        manga.name = newManga.trimmingCharacters(in: .whitespaces)
         manga.timestamp = Date()
         saveContext()
         fetchMangas()
-        newManga = ""
+        self.newManga = ""
     }
 
     /// Deletes mangas at the specified indices from the database,

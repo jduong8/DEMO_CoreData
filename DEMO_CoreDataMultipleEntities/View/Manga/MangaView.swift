@@ -55,9 +55,16 @@ extension MangaView {
         .alert("Add new manga", isPresented: $isShowingAlert) {
             TextField("", text: $viewModel.newManga)
             Button("Add") {
-                viewModel.addManga()
+                if !viewModel.newManga.isEmpty,
+                   viewModel.newManga.count >= 4,
+                   viewModel.newManga.rangeOfCharacter(from: .letters) != nil {
+                    viewModel.addManga()
+                }
+                self.viewModel.newManga = ""
             }
-            Button("Cancel", role: .cancel) { }
+            Button("Cancel", role: .cancel) {
+                self.viewModel.newManga = ""
+            }
         }
     }
 }
