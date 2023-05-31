@@ -41,13 +41,20 @@ class MangaViewModel: ObservableObject {
     /// Creates a new `Manga` object with the name stored in `newManga`, adds it to the database,
     /// then refreshes the list of mangas and resets `newManga` to an empty string.
     func addManga() {
-        let manga = Manga(context: viewContext)
-        manga.name = newManga.trimmingCharacters(in: .whitespaces)
-        manga.timestamp = Date()
-        saveContext()
-        fetchMangas()
+        // Check if the input contains at least one letter and has at least 4 characters
+        if !newManga.isEmpty,
+           newManga.count >= 4,
+           newManga.rangeOfCharacter(from: .letters) != nil {
+
+            let manga = Manga(context: viewContext)
+            manga.name = newManga.trimmingCharacters(in: .whitespaces)
+            manga.timestamp = Date()
+            saveContext()
+            fetchMangas()
+        }
         self.newManga = ""
     }
+
 
     /// Deletes mangas at the specified indices from the database,
     /// then refreshes the list of mangas.

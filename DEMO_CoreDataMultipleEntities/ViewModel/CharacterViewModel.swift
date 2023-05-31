@@ -10,7 +10,6 @@ import CoreData
 
 /// `CharacterViewModel` is an ObservableObject that manages the creation, deletion, and retrieval of `Character` objects.
 class CharacterViewModel: ObservableObject {
-
     /// An array of `Character` that contains the list of characters fetched from the database.
     @Published var characters: [Character] = []
 
@@ -51,12 +50,15 @@ class CharacterViewModel: ObservableObject {
     /// Creates a new `Character` object with the name and description stored in `name` and `description`, adds it to the database,
     /// then refreshes the list of characters.
     func addCharacter() {
-        let newCharacter = Character(context: viewContext)
-        newCharacter.name = name
-        newCharacter.descriptions = description
-        newCharacter.manga = manga
-        saveContext()
-        fetchCharacters()
+        // Check if the input contains at least one letter
+        if !name.isEmpty, name.rangeOfCharacter(from: .letters) != nil {
+            let newCharacter = Character(context: viewContext)
+            newCharacter.name = name
+            newCharacter.descriptions = description
+            newCharacter.manga = manga
+            saveContext()
+            fetchCharacters()
+        }
     }
 
     /// Deletes characters at the specified indices from the database,

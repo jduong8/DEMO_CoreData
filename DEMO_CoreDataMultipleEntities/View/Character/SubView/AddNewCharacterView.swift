@@ -23,9 +23,7 @@ struct AddNewCharacterView: View {
                 Text("Description")
             }
             Button {
-                if !charViewModel.name.isEmpty, charViewModel.name.rangeOfCharacter(from: .letters) != nil {
-                    self.charViewModel.addCharacter()
-                }
+                self.charViewModel.addCharacter()
                 self.charViewModel.name = ""
                 presentationMode.wrappedValue.dismiss()
             } label: {
